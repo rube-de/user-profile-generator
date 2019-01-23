@@ -1,7 +1,6 @@
 var url = "https://randomuser.me/api/";
+
 var btn = document.querySelector("#btn");
-
-
 btn.addEventListener("click", function() {
   fetch(url)
     .then(handleErrors)
@@ -18,17 +17,18 @@ function handleErrors(request) {
 }
 
 function parseJSON(request) {
-  return request.json();
+  return request.json().then(function(data){
+    return data.results[0];
+  });
 }
 
-function updateProfile(json) {
+function updateProfile(data) {
   var fullname = document.querySelector("#fullname");
   var username = document.querySelector("#username");
   var email = document.querySelector("#email");
   var city = document.querySelector("#city");
   var avatar = document.querySelector("#avatar");
 
-  var data = json.results[0];
   fullname.textContent = data.name.first.capitalize() + " " + data.name.last.capitalize();
   username.textContent = data.login.username;
   email.textContent = data.email;
